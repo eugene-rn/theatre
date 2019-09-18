@@ -1,0 +1,26 @@
+.button {
+  padding: 7px 15px;
+  border-radius: 5px;
+  border: 1px solid rgb(228, 226, 226);
+  font-size: 14px;
+  cursor: pointer;
+  transition: transform 0.15s ease-in-out;
+  outline: none;
+}
+
+.button:hover {
+  transform: scale(1.05);
+}
+
+.button:disabled {
+  opacity: 0.5;
+}
+
+.button:disabled:hover {
+  transform: none;
+}
+
+.button.primary {
+  background: rgb(104, 30, 165);
+  color: #fff;
+}

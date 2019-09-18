@@ -1,6 +1,8 @@
 import React, { useState } from "react";
 import { formatPerformances } from "../../helpers";
 import Performances from "./Steps/Performances";
+import PersonalData from "./Steps/PersonalData";
+import StepBar from "../../components/StepBar";
 import "./styles.css";
 
 const sessions = {
@@ -125,27 +127,43 @@ const performances = {
   ]
 };
 
-const renderStep = (step) => {
+const HomePage = () => {
+  const [step, setStep] = useState(2);
+
+  const onChangeStep = newStep => {
+    console.log("New step", newStep);
+    setStep(newStep);
+  };
+
+  const renderStep = () => {
     switch (step) {
-      case "1":
+      case 1:
         return (
           <Performances
             data={formatPerformances(performances.data, sessions.data)}
+            onChangeStep={newStep => onChangeStep(newStep)}
           />
         );
+      case 2:
+        return <PersonalData onChangeStep={newStep => onChangeStep(newStep)} />;
       default:
         return (
           <Performances
             data={formatPerformances(performances.data, sessions.data)}
+            onChangeStep={newStep => onChangeStep(newStep)}
           />
         );
     }
   };
 
-const HomePage = () => {
-  const step = useState(1);
+  console.log("Current step", step);
 
-  return <div className="container">{renderStep(step)}</div>;
+  return (
+    <div className="container">
+      <StepBar currentStep={step} />
+      {renderStep()}
+    </div>
+  );
 };
 
 export default HomePage;

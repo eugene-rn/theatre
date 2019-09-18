@@ -3,13 +3,11 @@ import moment from "moment";
 import Title from "../../../components/Title";
 import "../styles.css";
 
-const Performances = ({ data }) => {
-  console.log(moment(data[0].sessions[0].from).format("DD-MM-YYYY"));
-  console.log(data);
+const Performances = ({ data, onChangeStep }) => {
   return (
     <div className="performances">
       {data.map((elem, idx) => (
-        <div key={idx} className="performance">
+        <div key={idx} className="performance box">
           <Title size="h2">{elem.attributes.title}</Title>
           <div className="genres">
             {elem.attributes.genres.map(genre => (
@@ -22,7 +20,7 @@ const Performances = ({ data }) => {
             {elem.sessions.map(day => (
               <div key={day.day}>
                 <Title size="h4">{moment(day.day).format("DD.MM.YYYY")}</Title>
-                <div className="times">
+                <div className="times" onClick={() => onChangeStep(2)}>
                   {day.times.map(time => (
                     <div className="session" key={time.from}>
                       <div className="time">{time.from}</div>
