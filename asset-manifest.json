@@ -1,0 +1,18 @@
+{
+  "files": {
+    "main.css": "/theatre/static/css/main.e22019c3.chunk.css",
+    "main.js": "/theatre/static/js/main.81c84975.chunk.js",
+    "main.js.map": "/theatre/static/js/main.81c84975.chunk.js.map",
+    "runtime~main.js": "/theatre/static/js/runtime~main.943e339b.js",
+    "runtime~main.js.map": "/theatre/static/js/runtime~main.943e339b.js.map",
+    "static/css/2.ff9ea1f9.chunk.css": "/theatre/static/css/2.ff9ea1f9.chunk.css",
+    "static/js/2.b076b80e.chunk.js": "/theatre/static/js/2.b076b80e.chunk.js",
+    "static/js/2.b076b80e.chunk.js.map": "/theatre/static/js/2.b076b80e.chunk.js.map",
+    "index.html": "/theatre/index.html",
+    "precache-manifest.f7b5d9022abe11d6ac05885106e7a2cb.js": "/theatre/precache-manifest.f7b5d9022abe11d6ac05885106e7a2cb.js",
+    "service-worker.js": "/theatre/service-worker.js",
+    "static/css/2.ff9ea1f9.chunk.css.map": "/theatre/static/css/2.ff9ea1f9.chunk.css.map",
+    "static/css/main.e22019c3.chunk.css.map": "/theatre/static/css/main.e22019c3.chunk.css.map",
+    "static/media/spin.svg": "/theatre/static/media/spin.24b07114.svg"
+  }
+}
