@@ -18,10 +18,10 @@ const HomePage = () => {
   useEffect(() => {
     const fetchData = async () => {
       const sessionsPromise = axios.get(
-        "http://www.amock.io/api/Darren_Clyd/sessions"
+        "https://www.amock.io/api/Darren_Clyd/sessions"
       );
       const performancesPromise = axios.get(
-        "http://www.amock.io/api/Darren_Clyd/performances"
+        "https://www.amock.io/api/Darren_Clyd/performances"
       );
 
       try {
@@ -69,7 +69,7 @@ const HomePage = () => {
       }
     };
 
-    axios.post("", {
+    axios.post("https://www.amock.io/api/Darren_Clyd/orders", {
       data: {
         type: "orders",
         attributes: {
