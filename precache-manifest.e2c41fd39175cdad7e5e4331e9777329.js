@@ -1,6 +1,6 @@
 self.__precacheManifest = (self.__precacheManifest || []).concat([
   {
-    "revision": "bde2625ad95ffc7c70b72989413de9cd",
+    "revision": "1fd90206806e3e882a533449b422af2c",
     "url": "/theatre/index.html"
   },
   {
@@ -8,7 +8,7 @@ self.__precacheManifest = (self.__precacheManifest || []).concat([
     "url": "/theatre/static/css/2.ff9ea1f9.chunk.css"
   },
   {
-    "revision": "fd12826bde05eed7adda",
+    "revision": "ab70b62d02f9ef31f20c",
     "url": "/theatre/static/css/main.e22019c3.chunk.css"
   },
   {
@@ -16,8 +16,8 @@ self.__precacheManifest = (self.__precacheManifest || []).concat([
     "url": "/theatre/static/js/2.b076b80e.chunk.js"
   },
   {
-    "revision": "fd12826bde05eed7adda",
-    "url": "/theatre/static/js/main.81c84975.chunk.js"
+    "revision": "ab70b62d02f9ef31f20c",
+    "url": "/theatre/static/js/main.812e3591.chunk.js"
   },
   {
     "revision": "92c9c569baad44a68955",
