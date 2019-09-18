@@ -1,138 +1,87 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
+import axios from "axios";
 import { formatPerformances } from "../../helpers";
 import Performances from "./Steps/Performances";
 import PersonalData from "./Steps/PersonalData";
+import Payment from "./Steps/Payment";
+import Finish from "./Steps/Finish";
 import StepBar from "../../components/StepBar";
+import Spinner from "../../components/Spinner";
 import "./styles.css";
 
-const sessions = {
-  data: [
-    {
-      id: "1",
-      type: "sessions",
-      attributes: {
-        from: "2019-01-01 12:00",
-        to: "2019-01-01 13:00"
-      },
-      relationships: {
-        performance: {
-          data: {
-            type: "performances",
-            id: "1"
-          }
-        }
-      }
-    },
-    {
-      id: "2",
-      type: "sessions",
-      attributes: {
-        from: "2019-01-01 14:00",
-        to: "2019-01-01 15:00"
-      },
-      relationships: {
-        performance: {
-          data: {
-            type: "performances",
-            id: "1"
-          }
-        }
-      }
-    },
-    {
-      id: "3",
-      type: "sessions",
-      attributes: {
-        from: "2019-01-01 16:00",
-        to: "2019-01-01 17:00"
-      },
-      relationships: {
-        performance: {
-          data: {
-            type: "performances",
-            id: "1"
-          }
-        }
-      }
-    },
-    {
-      id: "4",
-      type: "sessions",
-      attributes: {
-        from: "2019-01-03 12:00",
-        to: "2019-01-03 13:00"
-      },
-      relationships: {
-        performance: {
-          data: {
-            type: "performances",
-            id: "2"
-          }
-        }
-      }
-    },
-    {
-      id: "5",
-      type: "sessions",
-      attributes: {
-        from: "2019-01-03 14:00",
-        to: "2019-01-03 15:00"
-      },
-      relationships: {
-        performance: {
-          data: {
-            type: "performances",
-            id: "2"
-          }
-        }
-      }
-    },
-    {
-      id: "6",
-      type: "sessions",
-      attributes: {
-        from: "2019-01-03 16:00",
-        to: "2019-01-03 17:00"
-      },
-      relationships: {
-        performance: {
-          data: {
-            type: "performances",
-            id: "2"
-          }
-        }
-      }
-    }
-  ]
-};
-
-const performances = {
-  data: [
-    {
-      id: "1",
-      type: "performances",
-      attributes: {
-        title: "Волк и семеро козлят",
-        genres: ["Комедия", "Сказка", "Для детей"]
-      }
-    },
-    {
-      id: "2",
-      type: "performances",
-      attributes: {
-        title: "Иисус Христос суперзвезда",
-        genres: ["Мюзкл", "Сказка"]
-      }
-    }
-  ]
-};
-
 const HomePage = () => {
-  const [step, setStep] = useState(2);
+  const [step, setStep] = useState(+localStorage.getItem("step"));
+  const [data, setData] = useState({});
+  const [performances, setPerformances] = useState([]);
+  const [isLoading, setIsLoading] = useState(true);
 
-  const onChangeStep = newStep => {
-    console.log("New step", newStep);
+  useEffect(() => {
+    const fetchData = async () => {
+      const sessionsPromise = axios.get(
+        "http://www.amock.io/api/Darren_Clyd/sessions"
+      );
+      const performancesPromise = axios.get(
+        "http://www.amock.io/api/Darren_Clyd/performances"
+      );
+
+      try {
+        const responces = await Promise.all([
+          performancesPromise,
+          sessionsPromise
+        ]);
+        setPerformances(
+          formatPerformances(responces[0].data.data, responces[1].data.data)
+        );
+        setIsLoading(false);
+      } catch (error) {
+        console.error(error);
+        throw error;
+      }
+    };
+
+    fetchData();
+  }, []);
+
+  const onChangeStep = async (newStep, formData) => {
+    await localStorage.setItem("step", newStep);
     setStep(newStep);
+    if (formData) {
+      await setData({ ...data, ...formData });
+      if (formData.payment === "cash" || newStep === 4) {
+        onSendForm();
+      }
+    }
+  };
+
+  const onSendForm = async () => {
+    const createPayment = () => {
+      if (data.payment === "card") {
+        return {
+          type: "card",
+          card: {
+            number: data.number,
+            valid_thru: data.expired,
+            name: data.owner
+          }
+        };
+      } else {
+        return { type: "cash" }
+      }
+    };
+
+    axios.post("", {
+      data: {
+        type: "orders",
+        attributes: {
+          session: 1,
+          first_name: data.firstName,
+          last_name: data.lastName,
+          birthday: data.birthDate,
+          email: data.email,
+          payment: createPayment(),
+        }
+      }
+    });
   };
 
   const renderStep = () => {
@@ -140,28 +89,42 @@ const HomePage = () => {
       case 1:
         return (
           <Performances
-            data={formatPerformances(performances.data, sessions.data)}
+            data={performances}
             onChangeStep={newStep => onChangeStep(newStep)}
           />
         );
       case 2:
-        return <PersonalData onChangeStep={newStep => onChangeStep(newStep)} />;
+        return (
+          <PersonalData
+            onChangeStep={(newStep, formData) =>
+              onChangeStep(newStep, formData)
+            }
+          />
+        );
+      case 3:
+        return (
+          <Payment
+            onChangeStep={(newStep, formData) =>
+              onChangeStep(newStep, formData)
+            }
+          />
+        );
+      case 4:
+        return <Finish />;
       default:
         return (
           <Performances
-            data={formatPerformances(performances.data, sessions.data)}
+            data={performances}
             onChangeStep={newStep => onChangeStep(newStep)}
           />
         );
     }
   };
 
-  console.log("Current step", step);
-
   return (
     <div className="container">
       <StepBar currentStep={step} />
-      {renderStep()}
+      {isLoading ? <Spinner /> : renderStep()}
     </div>
   );
 };

@@ -7,6 +7,10 @@ const StepBar = ({ currentStep }) => {
     switch(currentStep) {
       case 2:
         return <Title>2. Заполните личные данные</Title>
+      case 3:
+        return <Title>3. Оплата картой</Title>
+      case 4:
+        return <Title>Готово!</Title>
       default:
         return <Title>1. Выберите спектакль и время</Title>
     }

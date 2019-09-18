@@ -1,6 +1,4 @@
 const formReducer = (state, action) => {
-  console.log(action);
-
   switch (action.type) {
     case "INPUT_CHANGE":
       return {
